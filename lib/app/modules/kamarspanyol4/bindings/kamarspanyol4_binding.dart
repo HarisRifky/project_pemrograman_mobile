@@ -5,8 +5,8 @@ import '../controllers/kamarspanyol4_controller.dart';
 class Kamarspanyol4Binding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<Kamarspanyol4Controller>(
-      () => Kamarspanyol4Controller(),
+    Get.lazyPut<KamarSpanyol4Controller>(
+      () => KamarSpanyol4Controller(),
     );
   }
 }

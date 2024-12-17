@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myapp/app/modules/kamarspanyol4/views/kamarspanyol4_view.dart';
 
-class Kamarspanyol3View extends StatelessWidget {
+class Kamarspanyol3View extends StatefulWidget {
+  @override
+  _Kamarspanyol3ViewState createState() => _Kamarspanyol3ViewState();
+}
+
+class _Kamarspanyol3ViewState extends State<Kamarspanyol3View> {
+  // Variabel untuk menyimpan ukuran kursi yang dipilih oleh pengguna
+  String? selectedChairSize;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +27,7 @@ class Kamarspanyol3View extends StatelessWidget {
                     onPressed: () => Get.back(),
                   ),
                   Spacer(),
-                  Image.asset('assets/LOGO_YUMANSA.png', height: 40), // Replace with your logo
+                  Image.asset('assets/LOGO_YUMANSA.png', height: 40), // Ganti dengan logo yang sesuai
                 ],
               ),
             ),
@@ -82,7 +90,7 @@ class Kamarspanyol3View extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: Text(
-                        'Ukuran',
+                        'Ukuran Kursi:',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -93,15 +101,15 @@ class Kamarspanyol3View extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
                         children: [
-                          Expanded(child: _buildSizeInput()),
+                          Expanded(child: _buildSizeInput('Width')),
                           SizedBox(width: 8),
                           Text('X', style: TextStyle(fontSize: 18)),
                           SizedBox(width: 8),
-                          Expanded(child: _buildSizeInput()),
+                          Expanded(child: _buildSizeInput('Depth')),
                           SizedBox(width: 8),
                           Text('X', style: TextStyle(fontSize: 18)),
                           SizedBox(width: 8),
-                          Expanded(child: _buildSizeInput()),
+                          Expanded(child: _buildSizeInput('Height')),
                         ],
                       ),
                     ),
@@ -115,8 +123,11 @@ class Kamarspanyol3View extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: FloatingActionButton(
                   onPressed: () {
-                    // Navigate to the next page
-                    Get.to(() => Kamarspanyol4View());
+                    // Menyimpan nilai ukuran kursi ke dalam variabel saat tombol ditekan
+                    if (selectedChairSize != null) {
+                      print('Ukuran Kursi: $selectedChairSize');  // Debugging output
+                      Get.to(() => Kamarspanyol4View());
+                    }
                   },
                   child: Icon(Icons.arrow_forward),
                   backgroundColor: Colors.brown,
@@ -129,6 +140,7 @@ class Kamarspanyol3View extends StatelessWidget {
     );
   }
 
+  // Fungsi untuk membangun chip custom (kasur, kursi, lemari)
   Widget _buildCustomChip(String label, {required bool isSelected}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -146,7 +158,8 @@ class Kamarspanyol3View extends StatelessWidget {
     );
   }
 
-  Widget _buildSizeInput() {
+  // Fungsi untuk membangun input ukuran
+  Widget _buildSizeInput(String label) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
@@ -154,6 +167,12 @@ class Kamarspanyol3View extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextField(
+        onChanged: (value) {
+          setState(() {
+            // Menyimpan ukuran kursi berdasarkan input user
+            selectedChairSize = '$label: $value cm';
+          });
+        },
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: 'cm',
@@ -162,16 +181,6 @@ class Kamarspanyol3View extends StatelessWidget {
         keyboardType: TextInputType.number,
         textAlign: TextAlign.center,
       ),
-    );
-  }
-}
-
-class NextPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Next Page')),
-      body: Center(child: Text('This is the next page')),
     );
   }
 }

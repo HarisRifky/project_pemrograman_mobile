@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myapp/app/modules/kamarspanyol3/views/kamarspanyol3_view.dart';
 
-class KamarSpanyol2View extends StatelessWidget {
+class KamarSpanyol2View extends StatefulWidget {
+  @override
+  _KamarSpanyol2ViewState createState() => _KamarSpanyol2ViewState();
+}
+
+class _KamarSpanyol2ViewState extends State<KamarSpanyol2View> {
+  String? selectedSize;  // Menyimpan ukuran kasur yang dipilih
+  String? selectedSizeName; // Menyimpan nama ukuran kasur yang dipilih
+  String? selectedSizeDimensions; // Menyimpan dimensi ukuran kasur yang dipilih
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,12 +132,20 @@ class KamarSpanyol2View extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: FloatingActionButton(
-                  onPressed: () {
-                    // Navigate to the next page
-                    Get.to(() => Kamarspanyol3View());
-                  },
+                  onPressed: selectedSize != null
+                      ? () {
+                          // Simpan data ukuran kasur yang dipilih ke dalam variabel
+                          var selectedBedSize = {
+                            'size': selectedSizeName,
+                            'dimensions': selectedSizeDimensions,
+                          };
+
+                          // Lanjutkan ke halaman berikutnya dan kirim data
+                          Get.to(() => Kamarspanyol3View(), arguments: selectedBedSize);
+                        }
+                      : null,  // Jika belum memilih ukuran kasur, tidak bisa lanjut
                   child: Icon(Icons.arrow_forward),
-                  backgroundColor: Colors.brown,
+                  backgroundColor: selectedSize != null ? Colors.brown : Colors.grey, // Warna berubah berdasarkan pilihan
                 ),
               ),
             ),
@@ -146,20 +163,27 @@ class KamarSpanyol2View extends StatelessWidget {
   }
 
   Widget _buildSizeChip(String size, String dimensions) {
-    return Container(
-      padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: [
-          Text(size, style: TextStyle(fontWeight: FontWeight.bold)),
-          Text(dimensions, style: TextStyle(fontSize: 12)),
-        ],
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedSize = size; // Menyimpan ukuran kasur yang dipilih
+          selectedSizeName = size; // Menyimpan nama ukuran kasur
+          selectedSizeDimensions = dimensions; // Menyimpan dimensi ukuran kasur
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: selectedSize == size ? Colors.brown : Colors.grey[300],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          children: [
+            Text(size, style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(dimensions, style: TextStyle(fontSize: 12)),
+          ],
+        ),
       ),
     );
   }
 }
-
-

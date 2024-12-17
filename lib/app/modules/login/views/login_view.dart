@@ -1,21 +1,44 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/app/modules/home2/views/home2_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myapp/app/modules/auth_controller.dart';
 import 'package:myapp/app/modules/register/views/register_view.dart';
-import 'package:myapp/app/modules/lupapassword/views/lupapassword_view.dart';
 
 class LoginView extends StatelessWidget {
+  final AuthController authController = Get.find<AuthController>();
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  // Fungsi untuk mengirimkan permintaan reset password
+  Future<void> _resetPassword(BuildContext context) async {
+    if (emailController.text.isEmpty) {
+      Get.snackbar('Error', 'Mohon masukkan email Anda terlebih dahulu',
+          backgroundColor: Colors.red, colorText: Colors.white);
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text);
+      Get.snackbar('Sukses', 'Email untuk reset password telah dikirim',
+          backgroundColor: Colors.green, colorText: Colors.white);
+    } catch (e) {
+      Get.snackbar('Error', 'Gagal mengirim email reset password: $e',
+          backgroundColor: Colors.red, colorText: Colors.white);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFFBF5), // Warna latar belakang yang sesuai
+      backgroundColor: Color(0xFFFFFBF5),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Get.back()
+          onPressed: () => Get.back(),
         ),
       ),
       body: SingleChildScrollView(
@@ -26,16 +49,13 @@ class LoginView extends StatelessWidget {
               SizedBox(height: 20),
               Image.asset('assets/LOGO_YUMANSA.png', height: 80),
               SizedBox(height: 20),
-              _buildTextField('Email'),
-              _buildTextField('Password', isPassword: true),
+              _buildTextField('Email', controller: emailController),
+              _buildTextField('Password', controller: passwordController, isPassword: true),
               SizedBox(height: 5),
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
-                  onTap: () {
-                    Get.to(() =>
-                        LupaPasswordView()); // Navigasi ke halaman LupaPasswordView
-                  },
+                  onTap: () => _resetPassword(context),
                   child: Text(
                     'Lupa Password',
                     style: TextStyle(
@@ -53,11 +73,13 @@ class LoginView extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  Get.to(() => HomePage());
+                  authController.signInWithEmailAndPassword(
+                    emailController.text,
+                    passwordController.text,
+                  );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      const Color.fromRGBO(86, 43, 8, 1), // Warna cokelat
+                  backgroundColor: const Color.fromRGBO(86, 43, 8, 1),
                   minimumSize: Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -81,8 +103,7 @@ class LoginView extends StatelessWidget {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Get.to(() =>
-                              RegisterView()); // Navigasi ke halaman RegisterView
+                          Get.to(() => RegisterView());
                         },
                     ),
                   ],
@@ -95,10 +116,11 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(String label, {bool isPassword = false}) {
+  Widget _buildTextField(String label, {TextEditingController? controller, bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       child: TextField(
+        controller: controller,
         obscureText: isPassword,
         decoration: InputDecoration(
           labelText: label,

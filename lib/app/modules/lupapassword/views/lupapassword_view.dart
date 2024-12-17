@@ -21,14 +21,14 @@ class LupaPasswordView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 50),
+              SizedBox(height: 80), // Mengatur jarak agar inputan email berada di tengah
               Center(
                 child: Image.asset(
                   'assets/LOGO_YUMANSA.png', // Logo sesuai gambar
                   height: 100,
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 40), // Menambah jarak antara logo dan teks
               Text(
                 "Masukkan Email Anda",
                 style: TextStyle(
@@ -39,27 +39,7 @@ class LupaPasswordView extends StatelessWidget {
               ),
               SizedBox(height: 10),
               _buildTextField("Email"),
-              SizedBox(height: 20),
-              Text(
-                "Atau",
-                style: TextStyle(
-                  color: Colors.brown,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                "Masukkan No HP Anda",
-                style: TextStyle(
-                  color: Colors.brown,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              _buildTextField("No. HP"),
-              SizedBox(height: 30),
+              SizedBox(height: 50), // Memberi jarak tambahan antara inputan email dan tombol
               ElevatedButton(
                 child: Text(
                   'Masuk',
@@ -113,7 +93,7 @@ class LupaPasswordView extends StatelessWidget {
     );
   }
 
-  // Widget untuk TextField (Email & No. HP)
+  // Widget untuk TextField Email
   Widget _buildTextField(String label) {
     return TextField(
       style: TextStyle(color: Colors.brown),

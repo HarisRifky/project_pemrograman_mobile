@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myapp/app/modules/auth_controller.dart';
 import 'package:myapp/app/modules/home/views/home_view.dart';
 import 'package:myapp/app/modules/home2/views/home2_view.dart';
+import 'package:myapp/app/modules/profileinfo/views/profileinfo_view.dart';
 
 class ProfilePage extends StatelessWidget {
+  final AuthController authController = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -25,7 +29,7 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     Positioned(
                       left: 147,
-                      top: 124,
+                      top: 85,
                       child: Container(
                         width: 96,
                         height: 94,
@@ -36,6 +40,35 @@ class ProfilePage extends StatelessWidget {
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 140,
+                      top: 190,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.to(() => ProfileInfoView());
+                        },
+                        child: Container(
+                          width: 110,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFD9D9D9),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Edit Profile',
+                              style: TextStyle(
+                                color: Color(0xFF941B00),
+                                fontSize: 14,
+                                fontStyle: FontStyle.italic,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -59,6 +92,7 @@ class ProfilePage extends StatelessWidget {
                       top: 729,
                       child: GestureDetector(
                         onTap: () {
+                          authController.signOut();
                           Get.to(() => HomeView());
                         },
                         child: Container(
@@ -88,121 +122,29 @@ class ProfilePage extends StatelessWidget {
                     Positioned(
                       left: 25,
                       top: 306,
-                      child: Container(
-                        width: 336,
-                        height: 68,
-                        decoration: ShapeDecoration(
-                          color: Color(0x21D9D9D9),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 2, color: Color(0xFF941B00)),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
+                      child: _buildProfileItem(
+                        'Nama: ${authController.userData['nama'] ?? ''}',
                       ),
                     ),
                     Positioned(
                       left: 25,
                       top: 389,
-                      child: Container(
-                        width: 336,
-                        height: 68,
-                        decoration: ShapeDecoration(
-                          color: Color(0x21D9D9D9),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 2, color: Color(0xFF941B00)),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
+                      child: _buildProfileItem(
+                        'Email: ${authController.userData['email'] ?? ''}',
                       ),
                     ),
                     Positioned(
                       left: 25,
                       top: 472,
-                      child: Container(
-                        width: 336,
-                        height: 68,
-                        decoration: ShapeDecoration(
-                          color: Color(0x21D9D9D9),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 2, color: Color(0xFF941B00)),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
+                      child: _buildProfileItem(
+                        'No. HP: ${authController.userData['no_hp'] ?? ''}',
                       ),
                     ),
                     Positioned(
                       left: 24,
                       top: 555,
-                      child: Container(
-                        width: 336,
-                        height: 68,
-                        decoration: ShapeDecoration(
-                          color: Color(0x21D9D9D9),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 2, color: Color(0xFF941B00)),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 49,
-                      top: 332,
-                      child: Text(
-                        'NAMA',
-                        style: TextStyle(
-                          color: Color(0xFF941B00),
-                          fontSize: 14,
-                          fontStyle: FontStyle.italic,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w900,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 49,
-                      top: 415,
-                      child: Text(
-                        'GMAIL',
-                        style: TextStyle(
-                          color: Color(0xFF941B00),
-                          fontSize: 14,
-                          fontStyle: FontStyle.italic,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w900,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 54,
-                      top: 582,
-                      child: Text(
-                        'ALAMAT',
-                        style: TextStyle(
-                          color: Color(0xFF941B00),
-                          fontSize: 14,
-                          fontStyle: FontStyle.italic,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w900,
-                          height: 0,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 55,
-                      top: 499,
-                      child: Text(
-                        'NO HP',
-                        style: TextStyle(
-                          color: Color(0xFF941B00),
-                          fontSize: 14,
-                          fontStyle: FontStyle.italic,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w900,
-                          height: 0,
-                        ),
+                      child: _buildProfileItem(
+                        'Alamat: ${authController.userData['alamat'] ?? ''}',
                       ),
                     ),
                   ],
@@ -210,19 +152,45 @@ class ProfilePage extends StatelessWidget {
               ),
             ],
           ),
-          // Tombol panah kembali
           Positioned(
             left: 20,
             top: 20,
             child: IconButton(
               icon: Icon(Icons.arrow_back, color: Colors.white),
-             onPressed: () {
-            Get.to(() =>
-                const HomePage()); // Navigasi ke HomePage saat tombol back ditekan
-          },
+              onPressed: () {
+                Get.to(() =>
+                const HomePage());
+              },
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildProfileItem(String text) {
+    return Container(
+      width: 336,
+      height: 68,
+      decoration: ShapeDecoration(
+        color: Color(0x21D9D9D9),
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: 2, color: Color(0xFF941B00)),
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: Color(0xFF941B00),
+            fontSize: 14,
+            fontStyle: FontStyle.italic,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w900,
+          ),
+        ),
       ),
     );
   }

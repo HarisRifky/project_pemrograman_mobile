@@ -15,6 +15,7 @@ class Kamarspanyol1View extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
+        
         title: Text(
           'Spanyol',
           style: TextStyle(

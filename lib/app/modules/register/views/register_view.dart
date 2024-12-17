@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/app/modules/suksesdaftar/views/success_registration_view.dart';
+import 'package:myapp/app/modules/auth_controller.dart';
+import 'package:myapp/app/routes/app_pages.dart';
 
 class RegisterView extends StatelessWidget {
+  final AuthController authController = Get.find<AuthController>();
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,11 +42,12 @@ class RegisterView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30),
-              _buildTextField('Nama'),
-              _buildTextField('Email'),
-              _buildTextField('Password', isPassword: true),
-              _buildTextField('Alamat'),
-              _buildTextField('No. HP'),
+              _buildTextField('Nama', controller: nameController),
+              _buildTextField('Email', controller: emailController),
+              _buildTextField('Password',
+                  isPassword: true, controller: passwordController),
+              _buildTextField('Alamat', controller: addressController),
+              _buildTextField('No. HP', controller: phoneController),
               SizedBox(height: 30),
               ElevatedButton(
                 child: Text(
@@ -45,7 +55,14 @@ class RegisterView extends StatelessWidget {
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
                 onPressed: () {
-                  Get.to(() => SuccessRegistrationView());
+                  authController.registerWithEmailAndPassword(
+                    emailController.text.trim(),
+                    passwordController.text.trim(),
+                    nameController.text.trim(),
+                    addressController.text.trim(),
+                    phoneController.text.trim(),
+                  );
+                  Get.toNamed(Routes.LOGIN);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF562B08),
@@ -83,10 +100,12 @@ class RegisterView extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(String label, {bool isPassword = false}) {
+  Widget _buildTextField(String label,
+      {bool isPassword = false, TextEditingController? controller}) {
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       child: TextField(
+        controller: controller,
         obscureText: isPassword,
         style: TextStyle(color: Colors.brown),
         decoration: InputDecoration(
@@ -94,7 +113,7 @@ class RegisterView extends StatelessWidget {
           labelStyle: TextStyle(
             color: Colors.red,
             fontSize: 14,
-            fontWeight: FontWeight.bold, // Membuat teks label menjadi bold
+            fontWeight: FontWeight.bold,
           ),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.brown),

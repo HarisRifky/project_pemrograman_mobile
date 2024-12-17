@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class Dapur4Controller extends GetxController {
-  //TODO: Implement Dapur4Controller
+  //TODO: Implement Dapur5Controller
 
   final count = 0.obs;
   @override

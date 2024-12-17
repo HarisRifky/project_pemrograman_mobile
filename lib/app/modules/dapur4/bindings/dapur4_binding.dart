@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
-
-import '../controllers/dapur4_controller.dart';
+import 'package:myapp/app/modules/dapur4/controllers/dapur4_controller.dart';
 
 class Dapur4Binding extends Bindings {
   @override

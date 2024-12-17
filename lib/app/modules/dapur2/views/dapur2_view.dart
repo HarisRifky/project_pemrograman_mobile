@@ -1,319 +1,121 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/app/modules/dapur3/views/dapur3_view.dart';
+import 'package:myapp/app/modules/dapur2bgian2/views/dapur2bgian2_view.dart';
 
-import '../controllers/dapur2_controller.dart';
-
-class dapur2View extends GetView<Dapur2Controller> {
+class Dapur2View extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 390,
-          height: 650,
-          clipBehavior: Clip.antiAlias,
-          decoration: ShapeDecoration(
-            color: Color(0xFFFFFFF0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(35),
-            ),
-          ),
-          child: Stack(
-            children: [
-              Positioned(
-                left: 0,
-                top: 0,
-                child: Container(width: 24, height: 24),
-              ),
-              Positioned(
-                left: 311,
-                top: 24,
-                child: Container(
-                  width: 47,
-                  height: 51,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/LOGO_YUMANSA.png'),
-                      fit: BoxFit.fill,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 100,
-                        offset: Offset(0, 0),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 24,
-                top: 75,
-                child: Container(
-                  width: 102,
-                  height: 34,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 102,
-                          height: 34,
-                          decoration: ShapeDecoration(
-                            color: Color(0xFF562B08),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            shadows: [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 26,
-                        top: 9,
-                        child: Text(
-                          'Belgia',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 25,
-                top: 537,
-                child: Container(
-                  width: 102,
-                  height: 34,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 102,
-                          height: 34,
-                          decoration: ShapeDecoration(
-                            color: Color(0xFFD9D9D9),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            shadows: [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 38,
-                        top: 9,
-                        child: GestureDetector(
-                          onTap: () {
-                            // Navigator logic to go to the next page
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      Dapur3View()), // Replace NextPage with your actual page
-                            );
-                          },
-                          child: Text(
-                            'Meja',
-                            style: TextStyle(
-                              color: Color(0xFF562B08),
-                              fontSize: 14,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w500,
-                              height: 0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 141,
-                top: 537,
-                child: Container(
-                  width: 102,
-                  height: 34,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 102,
-                          height: 34,
-                          decoration: ShapeDecoration(
-                            color: Color(0xFFD9D9D9),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            shadows: [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 38,
-                        top: 9,
-                        child: Text(
-                          'Kursi',
-                          style: TextStyle(
-                            color: Color(0xFF562B08),
-                            fontSize: 14,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 21,
-                top: 24,
-                child: GestureDetector(
-                  onTap: () {
-                    // Navigator logic to go to the previous page
-                    Navigator.pop(
-                        context); // This will navigate back to the previous page
-                  },
-                  child: Container(
-                    width: 22,
-                    height: 18,
-                    child: Icon(
-                      Icons.arrow_back, // Change FlutterLogo to arrow_back icon
-                      size: 22,
-                      color:
-                          Colors.black, // You can customize the color if needed
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 33,
-                top: 336,
-                child: SizedBox(
-                  width: 134,
-                  height: 22,
-                  child: Text(
-                    'Deskripsi',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w800,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 33,
-                top: 363,
-                child: SizedBox(
-                  width: 322,
-                  child: Text(
-                    'Dapur nuansa Belgia menggabungkan elemen tradisional dan modern dengan bahan alami. Warna netral dan pastel menciptakan suasana hangat, sementara aksesori vintage menambah karakter. Ideal untuk berkumpul dan menikmati masakan.',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w300,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 25,
-                top: 479,
-                child: Container(
-                  width: 338.01,
-                  decoration: ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        width: 2,
-                        strokeAlign: BorderSide.strokeAlignCenter,
-                        color: Color(0xFF562B08),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 28,
-                top: 498,
-                child: SizedBox(
-                  width: 78,
-                  height: 26,
-                  child: Text(
-                    'Custom :',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w500,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 25,
-                top: 134,
-                child: Container(
-                  width: 328,
-                  height: 189,
-                  decoration: ShapeDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/dapur1.jpg'),
-                      fit: BoxFit.fill,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+    return Scaffold(
+      backgroundColor: Color(0xFFF5F7F8),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Color(0xFF562B08)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          'Italy',
+          style: TextStyle(
+            color: Color(0xFF562B08),
+            fontWeight: FontWeight.bold,
           ),
         ),
-      ],
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: Image.asset(
+              'assets/LOGO_YUMANSA.png', // Ensure this logo is in the assets folder
+              height: 40,
+            ),
+          ),
+        ],
+      ),
+      body: Container(
+        color: Color(0xFFFFFFF0),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image.asset(
+                'assets/dapur2.jpg', // Ensure this image is in the assets folder
+                height: 180.0,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Deskripsi',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices augue. Aliquam erat volutpat. Duis ac turpis. Donec sit amet eros. Lorem ipsum dolor sit amet.',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 16),
+            Divider(
+              color: Color(0xFF562B08),
+              thickness: 1,
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Custom:',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                buildCustomButton('Kursi', false, () {
+                  Get.to(
+                      () => dapur2bgian2View()); // Navigate to Interior2ke2View
+                }),
+                buildCustomButton('Meja', false, () {
+                  // Add navigation logic for Meja here
+                }),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Function to create custom button
+  Widget buildCustomButton(
+      String label, bool isSelected, VoidCallback onPressed) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isSelected ? Color(0xFF562B08) : Color(0xFFDDDDDD),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+      onPressed: onPressed, // Using callback for navigation
+      child: Text(
+        label,
+        style: TextStyle(
+          color: isSelected ? Colors.white : Colors.black,
+        ),
+      ),
     );
   }
 }

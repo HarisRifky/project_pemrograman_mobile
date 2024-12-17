@@ -1,12 +1,11 @@
 import 'package:get/get.dart';
-
-import '../controllers/dapur2_controller.dart';
+import 'package:myapp/app/modules/dapur2/controllers/dapur2_controller.dart';
 
 class Dapur2Binding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<Dapur2Controller>(
-      () => Dapur2Controller(),
+    Get.lazyPut<Dapur3Controller>(
+      () => Dapur3Controller(),
     );
   }
 }

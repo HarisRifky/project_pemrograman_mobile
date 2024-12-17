@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Import GetX
-import 'package:myapp/app/modules/dapur1/views/dapur1_view.dart';
+import 'package:myapp/app/modules/DAPURHOME/views/dapurhome_view.dart';
 import 'package:myapp/app/modules/historypage/views/historypage_view.dart';
+import 'package:myapp/app/modules/homeruangtamu/views/homeruangtamu_view.dart';
 import 'package:myapp/app/modules/kamar/views/kamar_view.dart';
 import 'package:myapp/app/modules/profilepage/views/profilepage_view.dart';
 
@@ -26,11 +27,9 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
       if (index == 1) {
-        Get.to(
-            () =>  HistoryPage()); // Navigasi ke HistoryPage dengan GetX
+        Get.to(() => HistoryPage()); // Navigasi ke HistoryPage dengan GetX
       } else if (index == 2) {
-        Get.to(
-            () =>  ProfilePage()); // Navigasi ke ProfilePage dengan GetX
+        Get.to(() => ProfilePage()); // Navigasi ke ProfilePage dengan GetX
       }
     });
   }
@@ -92,8 +91,9 @@ class HomeScreen extends StatelessWidget {
           runSpacing: 16,
           children: [
             _buildCategoryButton('Kamar', () => Get.to(() => KamarView())),
-            _buildCategoryButton('Dapur', () => Get.to(() => Dapur1View())),
-            _buildCategoryButton('Ruang Tamu', () => Get.to),
+            _buildCategoryButton('Dapur', () => Get.to(() => dapurhomeView())),
+            _buildCategoryButton(
+                'Ruang Tamu', () => Get.to(() => HomeruangtamuView())),
           ],
         ),
         const Spacer(),

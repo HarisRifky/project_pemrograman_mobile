@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myapp/app/modules/DAPURHOME/views/dapurhome_view.dart';
+import 'package:myapp/app/modules/homeruangtamu/views/homeruangtamu_view.dart';
+import 'package:myapp/app/modules/kamaramerika1/views/kamaramerika1_view.dart';
+import 'package:myapp/app/modules/kamareropa1/views/kamareropa1_view.dart';
+import 'package:myapp/app/modules/kamarjapan1/views/kamarjapan1_view.dart';
 import 'package:myapp/app/modules/kamarspanyol1/views/kamarspanyol1_view.dart';
 import 'package:myapp/app/modules/home2/views/home2_view.dart'; 
 import 'package:myapp/app/modules/historypage/views/historypage_view.dart'; 
 import 'package:myapp/app/modules/profilepage/views/profilepage_view.dart'; 
-import 'package:myapp/app/modules/dapur1/views/dapur1_view.dart'; 
 
 class KamarView extends StatefulWidget {
   @override
@@ -12,7 +16,7 @@ class KamarView extends StatefulWidget {
 }
 
 class _KamarViewState extends State<KamarView> {
-  int _selectedIndex = 0; 
+  int _selectedIndex = 0;
 
   final List<Widget> _pages = [
     HomePage(),
@@ -24,7 +28,7 @@ class _KamarViewState extends State<KamarView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF5F3E9),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         elevation: 0,
         title: const Text(
           'Interior & Construction',
@@ -39,7 +43,7 @@ class _KamarViewState extends State<KamarView> {
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: Image.asset(
-              'assets/LOGO_YUMANSA.png', 
+              'assets/LOGO_YUMANSA.png',
               width: 40,
               height: 40,
             ),
@@ -55,18 +59,15 @@ class _KamarViewState extends State<KamarView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 buildTabButton('Kamar', _selectedIndex == 0, () {
-                  // Navigasi ke halaman Kamar
                   setState(() {
                     _selectedIndex = 0;
                   });
                 }),
                 buildTabButton('Dapur', _selectedIndex == 1, () {
-                  // Navigasi ke halaman Dapur
-                  Get.to(() => Dapur1View()); // Ganti dengan halaman Dapur
+                  Get.to(() => dapurhomeView());
                 }),
                 buildTabButton('Ruang Tamu', _selectedIndex == 2, () {
-                  // Kosongkan untuk ruang tamu
-                  // Kamu bisa menambahkan navigasi ke Ruang Tamu di sini nanti
+                  Get.to(() => HomeruangtamuView());
                 }),
               ],
             ),
@@ -81,7 +82,7 @@ class _KamarViewState extends State<KamarView> {
                 ),
                 itemCount: 4,
                 itemBuilder: (context, index) {
-                  return buildCardItem(context);
+                  return buildCardItem(context, index);
                 },
               ),
             ),
@@ -89,7 +90,7 @@ class _KamarViewState extends State<KamarView> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex, 
+        currentIndex: _selectedIndex,
         backgroundColor: Color.fromRGBO(86, 43, 8, 1),
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey[400],
@@ -141,12 +142,40 @@ class _KamarViewState extends State<KamarView> {
   }
 
   // Fungsi untuk membuat item card di grid
-  Widget buildCardItem(BuildContext context) {
+  Widget buildCardItem(BuildContext context, int index) {
+    List<Widget> kamarPages = [
+      Kamarspanyol1View(),
+      Kamaramerika1View(),
+      Kamareropa1View(),
+      Kamarjapan1View(),
+    ];
+
+    List<String> imageAssets = [
+      'assets/kamar1.jpg',
+      'assets/kamar2.jpg',
+      'assets/kamar3.jpg',
+      'assets/kamar4.jpg',
+    ];
+
+    List<String> titles = [
+      'Spanyol',
+      'Amerika Klasik',
+      'Eropa',
+      'Japan',
+    ];
+
+    List<String> descriptions = [
+      'Fasilitas penuh gaya, cocok untuk ruang tidur modern.',
+      'Hangat, berdekor klasik, perabot kayu, detail elegan, nyaman.',
+      'Mewah, klasik, ornamen indah, warna netral, pencahayaan lembut.',
+      'Minimalis, tatami, pintu geser, kayu alami, atmosfer tenang.',
+    ];
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Kamarspanyol1View()),
+          MaterialPageRoute(builder: (context) => kamarPages[index]),
         );
       },
       child: Card(
@@ -162,7 +191,7 @@ class _KamarViewState extends State<KamarView> {
                 topRight: Radius.circular(15.0),
               ),
               child: Image.asset(
-                'assets/kamar1.jpg', // Pastikan file ini ada di folder assets
+                imageAssets[index],
                 height: 100.0,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -172,9 +201,9 @@ class _KamarViewState extends State<KamarView> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    'Spanyol',
+                    titles[index],
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16.0,
@@ -182,7 +211,7 @@ class _KamarViewState extends State<KamarView> {
                   ),
                   SizedBox(height: 4.0),
                   Text(
-                    'Fasilitas penuh gaya, cocok untuk ruang tidur modern.',
+                    descriptions[index],
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 12.0,
