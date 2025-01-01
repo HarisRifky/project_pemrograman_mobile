@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:io';
 import 'package:myapp/app/modules/auth_controller.dart';
 
 class ProfileInfoView extends StatefulWidget {
@@ -15,15 +18,56 @@ class _ProfileInfoViewState extends State<ProfileInfoView> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
 
+  File? _selectedImage;
+
   @override
   void initState() {
     super.initState();
-    // Initialize controllers with current user data
     final userData = authController.userData;
     nameController.text = userData['nama'] ?? '';
     emailController.text = userData['email'] ?? '';
     phoneController.text = userData['no_hp'] ?? '';
     addressController.text = userData['alamat'] ?? '';
+  }
+
+  Future<void> _requestPermission() async {
+    final status = await Permission.camera.request();
+    if (status.isDenied || status.isPermanentlyDenied) {
+      Get.snackbar(
+        "Permission Denied",
+        "Camera permission is required to take pictures.",
+        backgroundColor: Colors.redAccent,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    await _requestPermission();
+    final picker = ImagePicker();
+    try {
+      final pickedFile = await picker.pickImage(source: source, maxHeight: 800, maxWidth: 800);
+
+      if (pickedFile != null) {
+        setState(() {
+          _selectedImage = File(pickedFile.path);
+        });
+      } else {
+        Get.snackbar(
+          "No Image Selected",
+          "Please select an image to proceed.",
+          backgroundColor: Colors.orangeAccent,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        "Error",
+        "Failed to pick image: $e",
+        backgroundColor: Colors.redAccent,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   Future<void> _updateProfile() async {
@@ -56,13 +100,12 @@ class _ProfileInfoViewState extends State<ProfileInfoView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:
-            Color(0xFFFFFFF0), // Sesuaikan warna agar sesuai dengan background
+        backgroundColor: Color(0xFFFFFFF0),
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Color(0xFF562B08)),
           onPressed: () {
-            Navigator.pop(context); // Fungsi kembali
+            Navigator.pop(context);
           },
         ),
       ),
@@ -70,7 +113,7 @@ class _ProfileInfoViewState extends State<ProfileInfoView> {
         child: Center(
           child: Container(
             width: 390,
-            height: 700, // Menentukan tinggi agar Stack memiliki batasan
+            height: 700,
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(
               color: Color(0xFFFFFFF0),
@@ -88,8 +131,9 @@ class _ProfileInfoViewState extends State<ProfileInfoView> {
                     height: 94,
                     decoration: ShapeDecoration(
                       image: DecorationImage(
-                        image:
-                            NetworkImage("https://via.placeholder.com/96x94"),
+                        image: _selectedImage != null
+                            ? FileImage(_selectedImage!)
+                            : NetworkImage("https://via.placeholder.com/96x94") as ImageProvider,
                         fit: BoxFit.fill,
                       ),
                       shape: RoundedRectangleBorder(
@@ -125,37 +169,52 @@ class _ProfileInfoViewState extends State<ProfileInfoView> {
                   ),
                 ),
                 Positioned(
-                  left: 150,
-                  top: 106,
-                  child: Text(
-                    'Upload a photo under 2 MB',
-                    style: TextStyle(
-                      color: Color(0xFF562B08),
-                      fontSize: 12,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ),
-                Positioned(
                   left: 145,
                   top: 139,
-                  child: Container(
-                    width: 117,
-                    height: 30,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFD9D9D9),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                  child: GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) => Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ListTile(
+                              leading: Icon(Icons.camera),
+                              title: Text('Use Camera'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                _pickImage(ImageSource.camera);
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.photo),
+                              title: Text('Choose from Gallery'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                _pickImage(ImageSource.gallery);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: 117,
+                      height: 30,
+                      decoration: ShapeDecoration(
+                        color: Color(0xFFD9D9D9),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Upload',
-                        style: TextStyle(
-                          color: Color(0xFF562B08),
-                          fontSize: 12,
-                          fontFamily: 'Inter',
+                      child: Center(
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(
+                            color: Color(0xFF562B08),
+                            fontSize: 12,
+                            fontFamily: 'Inter',
+                          ),
                         ),
                       ),
                     ),
@@ -206,9 +265,7 @@ class _ProfileInfoViewState extends State<ProfileInfoView> {
                           onPressed: _updateProfile,
                           child: Text(
                             'Save',
-                            style: TextStyle(
-                                color: Colors
-                                    .white), // Mengubah warna tulisan menjadi putih
+                            style: TextStyle(color: Colors.white),
                           ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xFF562B08),

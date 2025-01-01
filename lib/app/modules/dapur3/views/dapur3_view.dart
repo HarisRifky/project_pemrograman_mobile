@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/app/modules/dapur3bgian2/views/dapur3bgian2_view.dart';
+import 'package:myapp/app/modules/interiorkesukses/views/interiorkesukses_view.dart';
 
 class Dapur3View extends StatelessWidget {
   @override
@@ -35,84 +35,170 @@ class Dapur3View extends StatelessWidget {
         ],
       ),
       body: Container(
-        color: Color(0xFFFFFFF0), // Match previous views
+        color: Color(0xFFFFFFF0),
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Image.asset(
-                'assets/dapur3.jpg', // Ensure this image is in the assets folder
-                height: 180.0,
-                width: double.infinity,
-                fit: BoxFit.cover,
+        child: SingleChildScrollView( // Tambahkan SingleChildScrollView di sini
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Image.asset(
+                  'assets/dapur3.jpg', // Pastikan gambar ada di folder assets
+                  height: 180.0,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Deskripsi',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black, // Consistent text color
+              SizedBox(height: 16),
+              Text(
+                'Deskripsi',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices augue. Aliquam erat volutpat. Duis ac turpis. Donec sit amet eros. Lorem ipsum dolor sit amet.',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.black, // Consistent text color
+              SizedBox(height: 8),
+              Text(
+                'Dapur dengan konsep klasik yang memadukan fungsionalitas dan kenyamanan. Kombinasi kabinet putih sederhana dengan meja makan bergaya retro memberikan sentuhan hangat dan bersahaja. Pencahayaan alami yang melimpah membuat ruang terasa terang dan terbuka, menciptakan suasana yang ideal untuk kegiatan sehari-hari.',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black,
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            Divider(
-              color: Color(0xFF562B08), // Match divider color
-              thickness: 1,
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Custom:',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.black, // Consistent text color
+              SizedBox(height: 16),
+              Divider(
+                color: Color(0xFF562B08),
+                thickness: 1,
               ),
-            ),
-            SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                buildCustomButton('Kursi', false, () {
-                  Get.to(() => dapur3bgian2View()); // Navigate to Interior3ke2View
-                }),
-                buildCustomButton('Meja', false, () {
-                  // Add navigation logic for Meja here
-                }),
-              ],
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'Kursi ',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF562B08),
+                  ),
+                ),
+              ),
+              SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    Expanded(child: _buildSizeInput()),
+                    SizedBox(width: 8),
+                    Text('X', style: TextStyle(fontSize: 18, color: Color(0xFF562B08))),
+                    SizedBox(width: 8),
+                    Expanded(child: _buildSizeInput()),
+                    SizedBox(width: 8),
+                    Text('X', style: TextStyle(fontSize: 18, color: Color(0xFF562B08))),
+                    SizedBox(width: 8),
+                    Expanded(child: _buildSizeInput()),
+                  ],
+                ),
+              ),
+              SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'Meja ',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF562B08),
+                  ),
+                ),
+              ),
+              SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    Expanded(child: _buildSizeInput()),
+                    SizedBox(width: 8),
+                    Text('X', style: TextStyle(fontSize: 18, color: Color(0xFF562B08))),
+                    SizedBox(width: 8),
+                    Expanded(child: _buildSizeInput()),
+                    SizedBox(width: 8),
+                    Text('X', style: TextStyle(fontSize: 18, color: Color(0xFF562B08))),
+                    SizedBox(width: 8),
+                    Expanded(child: _buildSizeInput()),
+                  ],
+                ),
+              ),
+              SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Navigasi ke halaman berikutnya
+                      Get.to(() => InteriorSuksesView());
+                    },
+                    child: Text(
+                      'Order Now',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF562B08),
+                      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   // Function to create custom button
-  Widget buildCustomButton(String label, bool isSelected, VoidCallback onPressed) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected ? Color(0xFF562B08) : Color(0xFFDDDDDD), // Match button colors
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+  Widget _buildCustomLabel(String label) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(20),
       ),
-      onPressed: onPressed, // Using callback for navigation
       child: Text(
         label,
         style: TextStyle(
-          color: isSelected ? Colors.white : Colors.black,
+          color: Colors.black,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
         ),
+      ),
+    );
+  }
+
+  // Function to create size input
+  Widget _buildSizeInput() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8), // Tambahkan vertical
+      decoration: BoxDecoration(
+        color: Color(0xFFEEEEEE),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: 'cm',
+          hintStyle: TextStyle(color: Colors.grey),
+        ),
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 14), // Ukuran teks lebih kecil
       ),
     );
   }

@@ -6,9 +6,18 @@ import 'package:myapp/app/modules/kamaramerika1/views/kamaramerika1_view.dart';
 import 'package:myapp/app/modules/kamareropa1/views/kamareropa1_view.dart';
 import 'package:myapp/app/modules/kamarjapan1/views/kamarjapan1_view.dart';
 import 'package:myapp/app/modules/kamarspanyol1/views/kamarspanyol1_view.dart';
-import 'package:myapp/app/modules/home2/views/home2_view.dart'; 
-import 'package:myapp/app/modules/historypage/views/historypage_view.dart'; 
-import 'package:myapp/app/modules/profilepage/views/profilepage_view.dart'; 
+import 'package:myapp/app/modules/home2/views/home2_view.dart';
+import 'package:myapp/app/modules/historypage/views/historypage_view.dart';
+import 'package:myapp/app/modules/profilepage/views/profilepage_view.dart';
+
+// Define constants for colors
+class AppColors {
+  static const Color primary = Color(0xFF562B08); // Brown
+  static const Color background = Color(0xFFF5F7F8); // Light gray
+  static const Color cardBg = Color(0xFFFFFFF0); // Ivory
+  static const Color textPrimary = Colors.black;
+  static const Color textSecondary = Colors.grey;
+}
 
 class KamarView extends StatefulWidget {
   @override
@@ -27,13 +36,14 @@ class _KamarViewState extends State<KamarView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.cardBg,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: Colors.white,
         elevation: 0,
         title: const Text(
           'Interior & Construction',
           style: TextStyle(
-            color: Color.fromRGBO(86, 43, 8, 1),
+            color: AppColors.primary,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -59,9 +69,7 @@ class _KamarViewState extends State<KamarView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 buildTabButton('Kamar', _selectedIndex == 0, () {
-                  setState(() {
-                    _selectedIndex = 0;
-                  });
+                  setState(() => _selectedIndex = 0);
                 }),
                 buildTabButton('Dapur', _selectedIndex == 1, () {
                   Get.to(() => dapurhomeView());
@@ -76,9 +84,9 @@ class _KamarViewState extends State<KamarView> {
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 10.0,
-                  childAspectRatio: 0.8,
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                  childAspectRatio: 0.85,
                 ),
                 itemCount: 4,
                 itemBuilder: (context, index) {
@@ -91,9 +99,9 @@ class _KamarViewState extends State<KamarView> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        backgroundColor: Color.fromRGBO(86, 43, 8, 1),
+        backgroundColor: AppColors.primary,
         selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey[400],
+        unselectedItemColor: AppColors.textSecondary,
         showUnselectedLabels: true,
         onTap: (index) {
           setState(() {
@@ -123,25 +131,34 @@ class _KamarViewState extends State<KamarView> {
   }
 
   Widget buildTabButton(String label, bool isSelected, VoidCallback onTap) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected ? Color.fromRGBO(86, 43, 8, 1) : Colors.grey[300],
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.0),
+        color: isSelected ? AppColors.primary : Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: MaterialButton(
+        onPressed: onTap,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),
-      ),
-      onPressed: onTap,
-      child: Text(
-        label,
-        style: TextStyle(
-          color: isSelected ? Colors.white : Colors.black,
-          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? Colors.white : AppColors.primary,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          ),
         ),
       ),
     );
   }
 
-  // Fungsi untuk membuat item card di grid
   Widget buildCardItem(BuildContext context, int index) {
     List<Widget> kamarPages = [
       Kamarspanyol1View(),
@@ -178,44 +195,63 @@ class _KamarViewState extends State<KamarView> {
           MaterialPageRoute(builder: (context) => kamarPages[index]),
         );
       },
-      child: Card(
-        shape: RoundedRectangleBorder(
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.primary,
           borderRadius: BorderRadius.circular(15.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0),
-              ),
-              child: Image.asset(
-                imageAssets[index],
-                height: 100.0,
-                width: double.infinity,
-                fit: BoxFit.cover,
+            Expanded(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0),
+                ),
+                child: Image.asset(
+                  imageAssets[index],
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            Container(
+              padding: const EdgeInsets.all(12.0),
+              decoration: const BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15.0),
+                  bottomRight: Radius.circular(15.0),
+                ),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     titles[index],
-                    style: TextStyle(
+                    style: const TextStyle(
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 16.0,
                     ),
                   ),
-                  SizedBox(height: 4.0),
+                  const SizedBox(height: 4.0),
                   Text(
                     descriptions[index],
-                    style: TextStyle(
-                      color: Colors.grey,
+                    style: const TextStyle(
+                      color: Colors.white,
                       fontSize: 12.0,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),

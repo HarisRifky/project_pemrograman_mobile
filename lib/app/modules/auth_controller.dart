@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -108,7 +110,7 @@ class AuthController extends GetxController {
     String? name,
     String? email,
     String? phone,
-    String? address,
+    String? address, File? profileImage,
   }) async {
     try {
       final currentUser = _auth.currentUser;
@@ -157,3 +159,4 @@ class AuthController extends GetxController {
   // Getter untuk mengecek apakah user sudah login
   bool get isLoggedIn => user.value != null;
 }
+ 
